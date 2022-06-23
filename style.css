@@ -96,6 +96,10 @@ table, th, td {
   border-collapse: collapse;
 }
 
+ul.no-bullets {
+  list-style-type: none;
+}
+
 caption {
   font-weight: bold;
 }

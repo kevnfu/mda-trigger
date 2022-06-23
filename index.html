@@ -18,7 +18,7 @@
                 <input type="number" step="0.1" min="0" id="time" name="time" placeholder="">
             </li>
             <li>
-                <label for="bkg">BKG (CPM):</label>
+                <label for="bkg">BKG (Counts):</label>
                 <input type="number" min="0" id="bkg" name="bkg" placeholder="">
             </li>
             <li>
@@ -28,7 +28,7 @@
             <!-- <li><input type="submit" value="Calculate"><br></li> -->
         </ul>
     </form>
-    <ul>
+    <ul class="no-bullets">
         <li>
             MDA = (2.71+4.66&Sqrt;Bkg) / (Eff × t) = <span id="mda"></span>
         </li>
@@ -38,12 +38,12 @@
     </ul>
 
     <table>
-        <caption>Contamination Limits</caption>
+        <caption>Contamination Limits (dpm/100 cm²)</caption>
         <tr>
             <th>Type of Contamination</th>
-            <th>Low Toxicity Radionuclide (dpm/100 cm²)</th>
-            <th>Moderate and High Toxicity Radionuclide (dpm/100 cm²)</th>
-            <th>Very Highd Toxicity Radionuclide(dpm/100 cm²)</th>
+            <th>Low Toxicity Radionuclide</th>
+            <th>Moderate and High Toxicity Radionuclide</th>
+            <th>Very High Toxicity Radionuclide</th>
         </tr>
         <tr>
             <td>Unrestricted areas and personal clothing</td>
@@ -66,15 +66,18 @@
     </table>
 
     <table>
-        <caption>Skin Contamination Limits for Rad Patients </caption>
+        <caption>Skin Contamination Limits for Rad Patients (dpm/100cm^2)</caption>
         <tr>
-            <td>Diagnostic Agents: 650,000 dpm/100cm^2</td>
+            <td>Diagnostic Agents</td>
+            <td>650,000</td>
         </tr>
         <tr>
-            <td>Therapeutic Agents excluding Ra-223 & Ac-225: 6,500 dpm/100cm^2</td>
+            <td>Therapeutic Agents excluding Ra-223 & Ac-225</td>
+            <td>6,500</td>
         </tr>
         <tr>
-            <td>Ra-223 & Ac-225: 66 dpm/100cm^2</td>
+            <td>Ra-223 & Ac-225</td>
+            <td>66</td>
         </tr>
     </table>
 
