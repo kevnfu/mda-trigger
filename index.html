@@ -1,1 +1,116 @@
-<p>Hello!</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title></title>
+</head>
+<body>
+    <form id="form">
+        <ul class="form-style-1">
+            <li>
+                <label for="eff">Efficiency (%):</label>
+                <input type="number" step="0.1" min="0" id="eff" name="eff" placeholder="">
+            </li>
+            <li>
+                <label for="type">Time (min):</label>
+                <input type="number" step="0.1" min="0" id="time" name="time" placeholder="">
+            </li>
+            <li>
+                <label for="bkg">BKG (CPM):</label>
+                <input type="number" min="0" id="bkg" name="bkg" placeholder="">
+            </li>
+            <li>
+                <label for="limit">Limit (DPM):</label>
+                <input type="number" min="0" id="limit" name="limit" placeholder="">
+            </li>
+            <!-- <li><input type="submit" value="Calculate"><br></li> -->
+        </ul>
+    </form>
+    <ul>
+        <li>
+            MDA = (2.71+4.66&Sqrt;Bkg) / (Eff × t) = <span id="mda"></span>
+        </li>
+        <li>
+            Trigger Level = [(L × Eff × t) + Bkg] = <span id="trigger-level"></span>
+        </li>
+    </ul>
+
+    <table>
+        <caption>Contamination Limits</caption>
+        <tr>
+            <th>Type of Contamination</th>
+            <th>Low Toxicity Radionuclide (dpm/100 cm²)</th>
+            <th>Moderate and High Toxicity Radionuclide (dpm/100 cm²)</th>
+            <th>Very Highd Toxicity Radionuclide(dpm/100 cm²)</th>
+        </tr>
+        <tr>
+            <td>Unrestricted areas and personal clothing</td>
+            <td>2,000</td>
+            <td>200</td>
+            <td>20</td>
+        </tr>
+        <tr>
+            <td>Restricted areas</td>
+            <td>10,000</td>
+            <td>1,000</td>
+            <td>200</td>
+        </tr>
+        <tr>
+            <td>Fixed contamination</td>
+            <td>10,000</td>
+            <td>1,000</td>
+            <td>200</td>
+        </tr>
+    </table>
+
+    <table>
+        <caption>Skin Contamination Limits for Rad Patients </caption>
+        <tr>
+            <td>Diagnostic Agents: 650,000 dpm/100cm^2</td>
+        </tr>
+        <tr>
+            <td>Therapeutic Agents excluding Ra-223 & Ac-225: 6,500 dpm/100cm^2</td>
+        </tr>
+        <tr>
+            <td>Ra-223 & Ac-225: 66 dpm/100cm^2</td>
+        </tr>
+    </table>
+
+    <table>
+        <caption>Common Nuclide Toxicity Table</caption>
+        <tr>
+            <th>Low</th>
+            <th>Moderate/High</th>
+            <th>Very High</th>
+        </tr>
+        <tr>
+            <td>Tc-99m</td>
+            <td>I-131</td>
+            <td>Ra-223</td>
+        </tr>
+        <tr>
+            <td>F-18</td>
+            <td>Lu-177</td>
+            <td>Ac-225</td>
+        </tr>
+        <tr>
+            <td>Ga-68</td>
+            <td>Cs-137</td>
+        </tr>
+        <tr>
+            <td>Cu-64</td>
+            <td>I-123</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>C-11</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <script type="text/javascript" src="script.js"></script>
+</body>
+</html>
