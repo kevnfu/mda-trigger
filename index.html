@@ -9,7 +9,7 @@
     <title>VUMC MDA-Trigger Calculator</title>
 </head>
 <body>
-    <div class="container-sm">
+    <div class="container">
 
     <form id="form" class="mb-4">
         <label for="efficiency-row" class="form-label">Efficiency (%):</label>
@@ -53,7 +53,7 @@
 
     <h4 class="mb-3">
         MDA = (2.71+4.66&Sqrt;Bkg) / (Eff × t) = <span id="mda">??</span><br>
-        Trigger Level = [(L × Eff × t) + Bkg] = <span id="trigger-level">??</span>
+        Trigger = [(L × Eff × t) + Bkg] = <span id="trigger-level">??</span>
     </h4>
 
     <table class="table caption-top table-bordered mb-3">
@@ -81,22 +81,6 @@
             <td>10,000</td>
             <td>1,000</td>
             <td>200</td>
-        </tr>
-    </table>
-
-    <table class="table caption-top table-bordered mb-3">
-        <caption>Skin Contamination Limits for Rad Patients (dpm/100cm<sup>2</sup>)</caption>
-        <tr>
-            <td>Diagnostic Agents</td>
-            <td>650,000</td>
-        </tr>
-        <tr>
-            <td>Therapeutic Agents excluding Ra-223 & Ac-225</td>
-            <td>6,500</td>
-        </tr>
-        <tr>
-            <td>Ra-223 & Ac-225</td>
-            <td>66</td>
         </tr>
     </table>
 
@@ -133,6 +117,27 @@
             <td></td>
         </tr>
     </table>
+
+    <table class="table caption-top table-bordered mb-3">
+        <caption>Skin Contamination Limits for Rad Patients (dpm/100cm<sup>2</sup>)</caption>
+        <thead class="table-light">
+            <th>Type</th>
+            <th>Limit</th>
+        </thead>
+        <tr>
+            <td>Diagnostic Agents</td>
+            <td>650,000</td>
+        </tr>
+        <tr>
+            <td>Therapeutic Agents excluding Ra-223 & Ac-225</td>
+            <td>6,500</td>
+        </tr>
+        <tr>
+            <td>Ra-223 & Ac-225</td>
+            <td>66</td>
+        </tr>
+    </table>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>

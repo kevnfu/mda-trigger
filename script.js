@@ -65,6 +65,8 @@ function calculate() {
 
 function displayText(mda, trigger) {
     eMda.innerText = mda;
+
+    // indicate when mda is too high (over trigger)
     if (mda > parseInt(eLimit.value)) {
         eMda.classList.add('text-danger');
     } else {
