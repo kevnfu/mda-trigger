@@ -1,7 +1,7 @@
 (function() {
 
 // Manually update these values. meter 98 is the well counter.
-const calDate = "3/21/22"
+const calDate = '3/21/22'
 const efficiencies = [
     ['Cs-137 (#98)', 33.72],
     ['Ba-133 (#98)', 91.87],
@@ -17,10 +17,10 @@ const eMda = document.getElementById('mda');
 const eTrigger = document.getElementById('trigger-level');
 const eEffSelector = document.getElementById('eff-select');
 const eCalDate = document.getElementById('cal-date');
-
+const eLimitSelector = document.getElementById('limit-select')
 
 // Update Cal Date
-eCalDate.textContent = 'Known Efficiencies ' + calDate;
+eCalDate.textContent = 'Efficiencies cal: ' + calDate;
 
 // Create options from efficiencies
 for (efficiency of efficiencies) {
@@ -29,10 +29,16 @@ for (efficiency of efficiencies) {
     eEffSelector.appendChild(opt);
 }
 
+// change efficiency value when item is selected
 eEffSelector.addEventListener('change', (e) => {
-    eEff.value = eEffSelector.options[eEffSelector.selectedIndex].value;
+    eEff.value = eEffSelector.value;
 });
 
+eLimitSelector.addEventListener('change', (e) => {
+    eLimit.value = eLimitSelector.value;
+});
+
+// recalculate when something is changed
 for (const x of form.elements) {
     x.addEventListener('change', (e) => {
         e.preventDefault();
@@ -40,28 +46,32 @@ for (const x of form.elements) {
     });
 }
 
-
-
 function calculate() {
     const eff = parseFloat(eEff.value) / 100;
     const bkg = parseInt(eBkg.value);
     const limit = parseInt(eLimit.value);
     const time = parseFloat(eTime.value);
 
-    // only calculate when all are empty
-    if ([eff, bkg, time, limit].reduce((t, v) => {return t && !Number.isNaN(v)})) {
+    // only calculate when all are filled
+    if ([eff, bkg, time, limit].reduce((t, v) => {return t && !Number.isNaN(v)}, true)) {
         let mda = Math.ceil((2.71 + 4.66 * Math.sqrt(bkg)) / (eff * time));
         let trigger = Math.floor(limit * eff * time + bkg);
-        if (mda > limit) {
-            eMda.classList.add("warning");
-        } else {
-            eMda.classList.remove("warning");
-        }
-        eMda.innerText = mda;
-        eTrigger.innerText = trigger;
-    }
 
+        displayText(mda, trigger);
+    } else {
+        displayText('??', '??');
+    }
 }
 
+function displayText(mda, trigger) {
+    eMda.innerText = mda;
+    if (mda > parseInt(eLimit.value)) {
+        eMda.classList.add('text-danger');
+    } else {
+        eMda.classList.remove('text-danger');
+    }
+
+    eTrigger.innerText = trigger;
+}
 
 })();

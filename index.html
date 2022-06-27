@@ -6,45 +6,64 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title></title>
+    <title>VUMC MDA-Trigger Calculator</title>
 </head>
 <body>
-    <form id="form" class="container">
-        <div class="mb-3">
-            <label for="eff" class="form-text">Efficiency (%):</label>
-            <input type="number" class="form-control" step="0.1" min="0" id="eff" name="eff" placeholder="">
+    <div class="container-sm">
+
+    <form id="form" class="mb-4">
+        <label for="efficiency-row" class="form-label">Efficiency (%):</label>
+        <div class="row" id="efficiency-row">
+            <div class="col-sm">
+                <input type="number" class="form-control" step="0.1" min="0" id="eff" name="eff" placeholder="">
+            </div>
+            <div class="col-sm">
+                <select id="eff-select" class="form-select">
+                    <option selected id="cal-date" value="0"></option>
+                </select>
+            </div>
         </div>
-        <select id="eff-select" class="form-select">
-            <option selected id="cal-date" value="0">Known Efficiencies</option>
-        </select>
-        <div class="mb-3">
-            <label for="type" class="form-text">Time (min):</label>
+        <div class="">
+            <label for="type" class="form-label">Time (min):</label>
             <input type="number" class="form-control" step="0.1" min="0" id="time" name="time" placeholder="">
         </div>
-        <div class="mb-3">
-            <label for="bkg" class="form-text">BKG (Counts):</label>
+        <div class="">
+            <label for="bkg" class="form-label">BKG (Counts):</label>
             <input type="number" class="form-control" min="0" id="bkg" name="bkg" placeholder="">
         </div>
-        <div class="mb-3">
-            <label for="limit" class="form-text">Limit (DPM):</label>
-            <input type="number" class="form-control" min="0" id="limit" name="limit" placeholder="">
+        <label for="limits-row" class="form-label">Limit (DPM):</label>
+        <div class="row" id="limits-row">
+            <div class="col-sm">
+                <input type="number" class="form-control" min="0" id="limit" name="limit" placeholder="">
+            </div>
+            <div class="col-sm">
+                <select id="limit-select" class="form-select">
+                    <option selected value="0">Common limits</option>
+                    <option value="200">200</option>
+                    <option value="1000">1,000</option>
+                    <option value="2000">2,000</option>
+                    <option value="6500">6,500</option>
+                    <option value="10000">10,000</option>
+                    <option value="650000">650,000</option>
+                </select>
+            </div>
+
         </div>
-        <!-- <li><input type="submit" value="Calculate"><br></li> -->
     </form>
 
-    <h4 class="container">
+    <h4 class="mb-3">
         MDA = (2.71+4.66&Sqrt;Bkg) / (Eff × t) = <span id="mda">??</span><br>
         Trigger Level = [(L × Eff × t) + Bkg] = <span id="trigger-level">??</span>
     </h4>
 
-    <table>
-        <caption>Contamination Limits (dpm/100 cm²)</caption>
-        <tr>
+    <table class="table caption-top table-bordered mb-3">
+        <caption>Contamination Limits dpm/100cm<sup>2</sup></caption>
+        <thead class="table-light">
             <th>Type of Contamination</th>
-            <th>Low Toxicity Radionuclide</th>
-            <th>Moderate and High Toxicity Radionuclide</th>
-            <th>Very High Toxicity Radionuclide</th>
-        </tr>
+            <th>Low Toxicity</th>
+            <th>Moderate and High Toxicity</th>
+            <th>Very High Toxicity</th>
+        </thead>
         <tr>
             <td>Unrestricted areas and personal clothing</td>
             <td>2,000</td>
@@ -65,8 +84,8 @@
         </tr>
     </table>
 
-    <table>
-        <caption>Skin Contamination Limits for Rad Patients (dpm/100cm^2)</caption>
+    <table class="table caption-top table-bordered mb-3">
+        <caption>Skin Contamination Limits for Rad Patients (dpm/100cm<sup>2</sup>)</caption>
         <tr>
             <td>Diagnostic Agents</td>
             <td>650,000</td>
@@ -81,13 +100,13 @@
         </tr>
     </table>
 
-    <table>
+    <table class="table caption-top table-bordered mb-3">
         <caption>Common Nuclide Toxicity Table</caption>
-        <tr>
+        <thead class="table-light">
             <th>Low</th>
             <th>Moderate/High</th>
             <th>Very High</th>
-        </tr>
+        </thead>
         <tr>
             <td>Tc-99m</td>
             <td>I-131</td>
@@ -101,6 +120,7 @@
         <tr>
             <td>Ga-68</td>
             <td>Cs-137</td>
+            <td></td>
         </tr>
         <tr>
             <td>Cu-64</td>
@@ -113,6 +133,7 @@
             <td></td>
         </tr>
     </table>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
     <script type="text/javascript" src="script.js"></script>

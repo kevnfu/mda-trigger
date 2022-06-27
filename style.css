@@ -10,12 +10,12 @@ ul.no-bullets {
   list-style-type: none;
 }
 
-table, th, td {
+/*table, th, td {
   margin: 10px;
   padding: 10px;
   border:  1px solid;
   border-collapse: collapse;
-}
+}*/
 
 caption {
   font-weight: bold;
