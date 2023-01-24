@@ -4,8 +4,7 @@
 const calDate = '3/21/22'
 const efficiencies = [
     ['Cs-137 (#98)', 33.72],
-    ['Ba-133 (#98)', 91.87],
-    ['Eu-152 (#98)', 77.15]
+    ['Ba-133 (#98)', 91.87]
 ];
 
 const form = document.getElementById('form');
