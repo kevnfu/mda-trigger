@@ -1,10 +1,10 @@
 (function() {
 
 // Manually update these values. meter 98 is the well counter.
-const calDate = '3/21/22'
 const efficiencies = [
-    ['Cs-137 (#98)', 33.72],
-    ['Ba-133 (#98)', 91.87]
+    ['Cs-137 (#98) 1/25/23', 33.76],
+    ['Eu-152 (#98) 1/25/23', 77.43],
+    ['Ba-133 (#98) 1/25/23', 92.25]
 ];
 
 const form = document.getElementById('form');
@@ -19,7 +19,7 @@ const eCalDate = document.getElementById('cal-date');
 const eLimitSelector = document.getElementById('limit-select')
 
 // Update Cal Date
-eCalDate.textContent = 'Efficiencies cal: ' + calDate;
+eCalDate.textContent = 'Efficiencies: ';
 
 // Create options from efficiencies
 for (efficiency of efficiencies) {
