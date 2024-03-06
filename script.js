@@ -2,9 +2,11 @@
 
 // Manually update these values. meter 98 is the well counter.
 const efficiencies = [
-    ['Cs-137 (#98) 1/25/23', 33.76],
-    ['Eu-152 (#98) 1/25/23', 77.43],
-    ['Ba-133 (#98) 1/25/23', 92.25]
+    ['I-131 (#98) 1/26/24', 23],
+    ['Tc-99m (#98) 1/26/24', 92],
+    ['Lu-177 (#98) 1/26/24', 91],
+    ['F-18 (#98) 1/26/24', 35],
+    ['I-123 (#98) 1/26/24', 84],
 ];
 
 const form = document.getElementById('form');
