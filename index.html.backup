@@ -4,31 +4,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>VUMC MDA-Trigger Calculator</title>
+
     <script>
-    MathJax = {
-  tex: {
-    inlineMath: [['$$', '$$'], ['\\(', '\\)']]
-  }
-};
-</script>
-    <script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$$', '$$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <title>VUMC MDA-Trigger Calculator</title>
 </head>
 <body>
     <div class="container">
-
     <form id="form" class="mb-4">
+
         <div class="col-sm">
             <select id="mda-select" class="form-select">
                 <option selected value="0">Select MDA Calculation Option</option>
-                    <option value="Same BKG and Sample Count Time">Same BKG and Sample Count Time</option>
-                    <option value="Alternate BKG and Sample Count Time">Alternate BKG and Sample Count Time</option>
-                </select>
-            </div>
+                <option value="Same BKG and Sample Count Time">Same BKG and Sample Count Time</option>
+                <option value="Alternate BKG and Sample Count Time">Alternate BKG and Sample Count Time</option>
+            </select>
+        </div>
+
         <label for="efficiency-row" class="form-label">Efficiency (%):</label>
         <div class="row" id="efficiency-row">
             <div class="col-sm">
@@ -40,14 +42,9 @@
                 </select>
             </div>
         </div>
-        <label for="time-row" class="form-label">Time (min): <br> NOTE: BKG Count Time does not need to be filled in if using Same BKG and Sample Count Time</label>
-        <div class="row" id="time-row">
-            <div class="col-sm">
-                <input type="number" class="form-control" step="0.1" min="0" id="time" name="time" placeholder="Sample Count Time">
-            </div>
-            <div class="col-sm">
-                <input type="number" class="form-control" step="0.1" min="0" id="bkg-time" name="bkg-time" placeholder="BKG Count Time">
-            </div>
+        <div class="">
+            <label for="type" class="form-label">Time (min):</label>
+            <input type="number" class="form-control" step="0.1" min="0" id="time" name="time" placeholder="">
         </div>
         <div class="">
             <label for="bkg" class="form-label">BKG (Counts):</label>
@@ -72,17 +69,8 @@
 
         </div>
     </form>
-    <math math xlmns="http://www.w3.org/1998/Math/MathML">
-        <h5 style = "text-align: center;" class="mb-3" id="MDA1text">
-            Same BKG and Sample Count Time $$MDA(dpm) = 2.71 + {4.66 \times \sqrt{Bkg} \over Eff \times Time}$$= <span id="mda1">??</span><br>
-        </h5>
-        <h5 style="text-align: center;" class="mb-3" id="MDA2text">
-            Alternate BKG and Sample Count Time $$MDA(dpm) = 2.71 + {3.29 \times {\sqrt{{Bkg \over tb} \times ts \times (1 + {ts \over tb}}} )\over Eff \times ts}$$ = <span id="mda2">??</span><br>
-        </h5>
-        <h5 class="mb-3">
-            Trigger = [(L × Eff × t) + Bkg] = <span id="trigger-level">??</span>
-        </h5>
-    </math>
+
+    <math xmlns="http://www.w3.org/1998/Math/MathML" class="mb-3" id="output"></math>
 
     <table class="table caption-top table-bordered mb-3">
         <caption>Contamination Limits dpm/100cm<sup>2</sup></caption>
