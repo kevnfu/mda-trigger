@@ -74,7 +74,6 @@ function calculate() {
     } else {
         displayText('??', '??');
     }
-    
 }
 
 function displayText(mda, trigger) {
