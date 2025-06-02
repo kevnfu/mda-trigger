@@ -15,16 +15,15 @@ const eEff = document.getElementById('eff');
 const eBkg = document.getElementById('bkg');
 const eLimit = document.getElementById('limit');
 const eTime = document.getElementById('time');
-const eTimeBKG = document.getElementById('bkg-time')
-const eMda1 = document.getElementById('mda1');
-const eMda2 = document.getElementById('mda2');
+const eTimeBkg = document.getElementById('bkg-time')
+const eMda = document.getElementById('mda');
 const eTrigger = document.getElementById('trigger-level');
 const eEffSelector = document.getElementById('eff-select');
 const eCalDate = document.getElementById('cal-date');
 const eLimitSelector = document.getElementById('limit-select')
-const emdaOption = document.getElementById('mda-select')
-const eMDAText = document.getElementById('MDA1text')
-const eMDA2Text = document.getElementById('MDA2text')
+const eMdaOptionSelector = form.elements["mda-select"];
+const eMdaSameEqn = document.getElementById('mda-same-equation')
+const eMdaDifferentEqn = document.getElementById('mda-different-equation')
 
 // Update Cal Date
 eCalDate.textContent = 'Efficiencies: ';
@@ -53,78 +52,49 @@ for (const x of form.elements) {
     });
 }
 
-
-    
-
 function calculate() {
     const eff = parseFloat(eEff.value) / 100;
     const bkg = parseInt(eBkg.value);
     const limit = parseInt(eLimit.value);
     const time = parseFloat(eTime.value);
-    const bkg_time = parseFloat(eTimeBKG.value);
+    const bkg_time = parseFloat(eTimeBkg.value);
 
-    // only calculate when all are filled, check for MDA calculation option
-    if (emdaOption.value ==='Same BKG and Sample Count Time'  && 
-        eff != ' ' &&
-        bkg != ' ' &&
-        limit != ' ' &&
-        time != ' ') {
-        let mda1 = Math.ceil((2.71 + 4.66 * Math.sqrt(bkg)) / (eff * time));
-        let trigger = Math.floor(limit * eff * time + bkg);
-
-        eMDAText.style.display = "block";
-        eMDA2Text.style.display = "none";
-
-        displayText(mda1, trigger);
-        displayText2('??', trigger);
-    } else if (emdaOption.value ==='Alternate BKG and Sample Count Time'  && 
-        eff != ' ' &&
-        bkg != ' ' &&
-        limit != ' ' &&
-        time != ' ' &&
-        bkg_time != ' ') { 
-        let mda2 = Math.ceil(((2.71 + 3.29 * Math.sqrt(bkg/bkg_time * time * (1 + time/bkg_time)))/ (eff * time)));
-        let trigger = Math.floor(limit * time * eff + bkg/bkg_time*time);
-        
-        eMDA2Text.style.display = "block";
-        eMDAText.style.display = "none";
-
-        displayText2(mda2, trigger);
-        displayText('??', trigger);
+    // only calculate when all are filled
+    if ([eff, bkg, time, limit].reduce((t, v) => {return t && !Number.isNaN(v)}, true)) {
+        // check  MDA calculation option
+        let mda, trigger
+        if(eMdaOptionSelector.value === "same") {
+            mda = Math.ceil((2.71 + 4.66 * Math.sqrt(bkg)) / (eff * time));
+            trigger = Math.floor(limit * eff * time + bkg);
+        } else if(eMdaOptionSelector.value === "different") {
+            mda = Math.ceil(((2.71 + 3.29 * Math.sqrt(bkg/bkg_time * time * (1 + time/bkg_time)))/ (eff * time)));
+            trigger = Math.floor(limit * time * eff + bkg/bkg_time*time);
+        }
+        displayText(mda, trigger);
     } else {
-
-        displayText('??', '??')
-        displayText2('??', '??')
+        displayText('??', '??');
     }
     
 }
 
-
-function displayText(mda1, trigger) {
-    eMda1.innerText = mda1;
-    
-
-    // indicate when mda is too high (over trigger)
-    if (mda1 > parseInt(eLimit.value)) {
-        eMda1.classList.add('text-danger');
-    } else {
-        eMda1.classList.remove('text-danger');
+function displayText(mda, trigger) {
+    // update MDA equation to match selected option
+    if(eMdaOptionSelector.value === "same") {
+        eMdaSameEqn.style.display = "block";
+        eMdaDifferentEqn.style.display = "none";
+    } else if(eMdaOptionSelector.value === "different") {
+        eMdaDifferentEqn.style.display = "block";
+        eMdaSameEqn.style.display = "none";
     }
-
+    eMda.innerText = mda;
     eTrigger.innerText = trigger;
-}
-
-function displayText2(mda2, trigger) {
-    eMda2.innerText = mda2;
     
     // indicate when mda is too high (over trigger)
-    if (mda2 > parseInt(eLimit.value)) {
-        eMda2.classList.add('text-danger');
+    if (mda > parseInt(eLimit.value)) {
+        eMda.classList.add('text-danger');
     } else {
-        eMda2.classList.remove('text-danger');
+        eMda.classList.remove('text-danger');
     }
-
-    eTrigger.innerText = trigger;
 }
 
 })();

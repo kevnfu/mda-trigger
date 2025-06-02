@@ -22,14 +22,23 @@
     <div class="container">
 
     <form id="form" class="mb-4">
-        <div class="col-sm">
-            <select id="mda-select" class="form-select">
-                <option selected value="0">Select MDA Calculation Option</option>
-                    <option value="Same BKG and Sample Count Time">Same BKG and Sample Count Time</option>
-                    <option value="Alternate BKG and Sample Count Time">Alternate BKG and Sample Count Time</option>
-                </select>
+        <div class="form-label">Select MDA Calculation Option:</div>
+        <div class="col-sm" id="mda-select-radios">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="mda-select" value="same" id="mda-select-same" checked>
+                <label class="form-check-label" for="mda-select-same">Same BKG and Sample Count Time</label>
             </div>
-        <label for="efficiency-row" class="form-label">Efficiency (%):</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="mda-select" value="different" id="mda-select-different">
+                <label class="form-check-label" for="mda-select-different">Alternate BKG and Sample Count Time</label>
+            </div>
+        </div>
+            <!-- <select id="mda-select" class="form-select">
+                <option selected value="0">Select MDA Calculation Option</option>
+                <option value="Same BKG and Sample Count Time">Same BKG and Sample Count Time</option>
+                <option value="Alternate BKG and Sample Count Time">Alternate BKG and Sample Count Time</option>
+            </select> -->
+        <div class="form-label">Efficiency (%):</div>
         <div class="row" id="efficiency-row">
             <div class="col-sm">
                 <input type="number" class="form-control" step="0.1" min="0" id="eff" name="eff" placeholder="">
@@ -40,7 +49,7 @@
                 </select>
             </div>
         </div>
-        <label for="time-row" class="form-label">Time (min): <br> NOTE: BKG Count Time does not need to be filled in if using Same BKG and Sample Count Time</label>
+        <div class="form-label">Time (min): <br> NOTE: BKG Count Time does not need to be filled in if using Same BKG and Sample Count Time</div>
         <div class="row" id="time-row">
             <div class="col-sm">
                 <input type="number" class="form-control" step="0.1" min="0" id="time" name="time" placeholder="Sample Count Time">
@@ -53,7 +62,7 @@
             <label for="bkg" class="form-label">BKG (Counts):</label>
             <input type="number" class="form-control" min="0" id="bkg" name="bkg" placeholder="">
         </div>
-        <label for="limits-row" class="form-label">Limit (DPM):</label>
+        <div class="form-label">Limit (DPM):</div>
         <div class="row" id="limits-row">
             <div class="col-sm">
                 <input type="number" class="form-control" min="0" id="limit" name="limit" placeholder="">
@@ -72,17 +81,22 @@
 
         </div>
     </form>
-    <math math xlmns="http://www.w3.org/1998/Math/MathML">
-        <h5 style = "text-align: center;" class="mb-3" id="MDA1text">
-            Same BKG and Sample Count Time $$MDA(dpm) = 2.71 + {4.66 \times \sqrt{Bkg} \over Eff \times Time}$$= <span id="mda1">??</span><br>
-        </h5>
-        <h5 style="text-align: center;" class="mb-3" id="MDA2text">
-            Alternate BKG and Sample Count Time $$MDA(dpm) = 2.71 + {3.29 \times {\sqrt{{Bkg \over tb} \times ts \times (1 + {ts \over tb}}} )\over Eff \times ts}$$ = <span id="mda2">??</span><br>
-        </h5>
-        <h5 class="mb-3">
-            Trigger = [(L × Eff × t) + Bkg] = <span id="trigger-level">??</span>
-        </h5>
-    </math>
+    <div class="row">
+        <math math xlmns="http://www.w3.org/1998/Math/MathML">
+            <h5 style = "display: block; text-align: center;" class="mb-3" id="mda-same-equation">
+                Same BKG and Sample Count Time $$MDA(dpm) = 2.71 + {4.66 \times \sqrt{Bkg} \over Eff \times Time}$$
+            </h5>
+            <h5 style="display: none; text-align: center;" class="mb-3" id="mda-different-equation">
+                Alternate BKG and Sample Count Time $$MDA(dpm) = 2.71 + {3.29 \times {\sqrt{{Bkg \over tb} \times ts \times (1 + {ts \over tb}}} )\over Eff \times ts}$$
+            </h5>
+            <h5 style="text-align: center;" class="mb-3">
+                = <span id="mda">??</span>
+            </h5>
+            <h5 style="text-align: center;" class="mb-3">
+                Trigger = [(L × Eff × t) + Bkg] = <span id="trigger-level">??</span>
+            </h5>
+        </math>
+    </div>
 
     <table class="table caption-top table-bordered mb-3">
         <caption>Contamination Limits dpm/100cm<sup>2</sup></caption>
