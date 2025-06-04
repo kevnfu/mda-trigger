@@ -1,13 +1,13 @@
 (function() {
 
 // Manually update these values. meter 98 is the well counter.
-const date = '3/17/25'
+const date = '6/4/25'
 const efficiencies = [
     [`I-131 (#98) ${date}`, 41],
-    [`Tc-99m (#98) ${date}`, 92],
-    [`Lu-177 (#98) ${date}`, 91],
+    [`Tc-99m (#98) ${date}`, 94],
+    [`Lu-177 (#98) ${date}`, 93],
     [`F-18 (#98) ${date}`, 35],
-    [`I-123 (#98) ${date}`, 84],
+    [`I-123 (#98) ${date}`, 86],
 ];
 
 const form = document.getElementById('form');
