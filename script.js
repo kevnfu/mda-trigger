@@ -1,7 +1,7 @@
 (function() {
 
 // Manually update these values. meter 98 is the well counter.
-const date = '6/4/25'
+const date = '6/3/25'
 const efficiencies = [
     [`I-131 (#98) ${date}`, 41],
     [`Tc-99m (#98) ${date}`, 94],
