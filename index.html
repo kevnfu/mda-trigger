@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>VUMC MDA-Trigger Calculator</title>
     <script>
@@ -22,7 +21,7 @@
     <div class="container">
 
     <form id="form" class="mb-4">
-        <div class="form-label">Select MDA Calculation Option:</div>
+        <div class="form-label">Select MDA calculation option:</div>
         <div class="col-sm" id="mda-select-radios">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="mda-select" value="same" id="mda-select-same" checked>
@@ -33,94 +32,133 @@
                 <label class="form-check-label" for="mda-select-different">Alternate BKG and Sample Count Time</label>
             </div>
         </div>
-        <div class="form-label">Efficiency (%):</div>
-        <div class="row" id="efficiency-row">
+        <div class="row">
             <div class="col-sm">
-                <input type="number" class="form-control" step="0.1" min="0" id="eff" name="eff" placeholder="">
+                <div class="form-floating">
+                    <input type="number" class="form-control" step="1" min="0" id="eff" name="eff" placeholder="Efficiency (%)">
+                    <label for="eff">Efficency (%)</label>
+                </div>
             </div>
             <div class="col-sm">
-                <select id="eff-select" class="form-select">
-                    <option selected id="cal-date" value="0"></option>
-                </select>
-            </div>
-        </div>
-        <div class="form-label">Time (min): <br> NOTE: BKG Count Time does not need to be filled in if using Same BKG and Sample Count Time</div>
-        <div class="row" id="time-row">
-            <div class="col-sm">
-                <input type="number" class="form-control" step="0.1" min="0" id="time" name="time" placeholder="Sample Count Time">
-            </div>
-            <div class="col-sm">
-                <input type="number" class="form-control" step="0.1" min="0" id="bkg-time" name="bkg-time" placeholder="BKG Count Time">
+                <div class="form-floating">
+                    <select id="eff-select" class="form-select">
+                        <option selected value="0"></option>
+                    </select>
+                    <label for="eff">Common efficiencies</label>
+                </div>
             </div>
         </div>
-        <div class="">
-            <label for="bkg" class="form-label">BKG (Counts):</label>
-            <input type="number" class="form-control" min="0" id="bkg" name="bkg" placeholder="">
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-floating">
+                    <input type="number" class="form-control" step="1" min="0" id="time" name="time" placeholder="">
+                    <label for="id">Sample count time (min)</label>
+                </div>
+            </div>
+            <div class="col-sm" style="display: none;" id="bkg-time-display">
+                <div class="form-floating">
+                    <input type="number" class="form-control" step="0.1" min="0" id="bkg-time" name="bkg-time" placeholder="">
+                    <label for="bkg-time">BKG count time (min)</label>
+                </div>
+            </div>
         </div>
-        <div class="form-label">Limit (DPM):</div>
-        <div class="row" id="limits-row">
+        <div class="row">
             <div class="col-sm">
-                <input type="number" class="form-control" min="0" id="limit" name="limit" placeholder="">
+                <div class="form-floating">
+                    <input type="number" class="form-control" min="0" id="bkg" name="bkg" placeholder="">
+                    <label for="bkg" class="form-label">BKG (counts)</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-floating">
+                    <input type="number" class="form-control" min="0" id="limit" name="limit" placeholder="">
+                    <label for="limit">Limit (dpm)</label>
+                </div>
             </div>
             <div class="col-sm">
-                <select id="limit-select" class="form-select">
-                    <option selected value="0">Common limits</option>
-                    <option value="200">200</option>
-                    <option value="1000">1,000</option>
-                    <option value="2000">2,000</option>
-                    <option value="6500">6,500</option>
-                    <option value="10000">10,000</option>
-                    <option value="650000">650,000</option>
-                </select>
+                <div class="form-floating">
+                    <select id="limit-select" class="form-select">
+                        <option value="0"></option>
+                        <option value="200">200</option>
+                        <option value="1000">1,000</option>
+                        <option value="2000">2,000</option>
+                        <option value="6500">6,500</option>
+                        <option value="10000">10,000</option>
+                        <option value="650000">650,000</option>
+                    </select>
+                    <label for="limit-select">Common limits</label>
+                </div>
             </div>
-
         </div>
     </form>
-    <div class="row">
+    <div class="row" style="text-align: center">
         <math math xlmns="http://www.w3.org/1998/Math/MathML">
-            <h5 style = "display: block; text-align: center;" class="mb-3" id="mda-same-equation">
+            <h5 style = "display: block;" class="mb-3" id="mda-same-equation">
                 Same BKG and Sample Count Time $$MDA(dpm) = 2.71 + {4.66 \times \sqrt{Bkg} \over Eff \times Time}$$
             </h5>
-            <h5 style="display: none; text-align: center;" class="mb-3" id="mda-different-equation">
+            <h5 style="display: none;" class="mb-3" id="mda-different-equation">
                 Alternate BKG and Sample Count Time $$MDA(dpm) = 2.71 + {3.29 \times {\sqrt{{Bkg \over tb} \times ts \times (1 + {ts \over tb}}} )\over Eff \times ts}$$
             </h5>
-            <h5 style="text-align: center;" class="mb-3">
+            <h5 class="mb-3">
                 = <span id="mda">??</span>
             </h5>
-            <h5 style="text-align: center;" class="mb-3">
+            <h5 class="mb-3">
                 Trigger = [(L × Eff × t) + Bkg] = <span id="trigger-level">??</span>
             </h5>
         </math>
     </div>
+    <div class="row">
+        <button type="button" class="btn btn-primary" id="save-btn" disabled>Save</button>
+    </div>
 
     <table class="table caption-top table-bordered mb-3">
-        <caption>Contamination Limits dpm/100cm<sup>2</sup></caption>
+        <caption>Contamination Limits (dpm/100cm<sup>2</sup>)</caption>
         <thead class="table-light">
             <th>Type of Contamination</th>
             <th>Low Toxicity</th>
             <th>Moderate and High Toxicity</th>
             <th>Very High Toxicity</th>
         </thead>
-        <tr>
-            <td>Unrestricted areas and personal clothing</td>
-            <td>2,000</td>
-            <td>200</td>
-            <td>20</td>
-        </tr>
-        <tr>
-            <td>Restricted areas</td>
-            <td>10,000</td>
-            <td>1,000</td>
-            <td>200</td>
-        </tr>
-        <tr>
-            <td>Fixed contamination</td>
-            <td>10,000</td>
-            <td>1,000</td>
-            <td>200</td>
-        </tr>
+        <tbody>
+            <tr>
+                <td>Unrestricted areas and personal clothing</td>
+                <td>2,000</td>
+                <td>200</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td>Restricted areas</td>
+                <td>10,000</td>
+                <td>1,000</td>
+                <td>200</td>
+            </tr>
+            <tr>
+                <td>Fixed contamination</td>
+                <td>10,000</td>
+                <td>1,000</td>
+                <td>200</td>
+            </tr>
+        </tbody>
     </table>
 
+    <table class="table caption-top table-bordered mb-3">
+        <caption>Standard efficiencies</caption>
+        <thead class="table-light">
+            <th>Instrument</th>
+            <th>Isotope</th>
+            <th>Efficiency (%)</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GM</td>
+                <td>F-18</td>
+                <td>13</td>
+            </tr>
+        </tbody>
+    </table>
+    
     <table class="table caption-top table-bordered mb-3">
         <caption>Common Nuclide Toxicity Table</caption>
         <thead class="table-light">
@@ -128,37 +166,38 @@
             <th>Moderate/High</th>
             <th>Very High</th>
         </thead>
-        <tr>
-            <td>Tc-99m</td>
-            <td>I-131</td>
-            <td>Ra-223</td>
-        </tr>
-        <tr>
-            <td>F-18</td>
-            <td>Lu-177</td>
-            <td>Ac-225</td>
-        </tr>
-        <tr>
-            <td>Ga-68</td>
-            <td>Cs-137</td>
-            <td>Pb-212</td>
-        </tr>
-        <tr>
-            <td>Cu-64</td>
-            <td>I-123</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>C-11</td>
-            <td>Zr-89</td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td>In-111</td>
-            <td></td>
-        </tr>
+        <tbody>
+            <tr>
+                <td>Tc-99m</td>
+                <td>I-131</td>
+                <td>Ra-223</td>
+            </tr>
+            <tr>
+                <td>F-18</td>
+                <td>Lu-177</td>
+                <td>Ac-225</td>
+            </tr>
+            <tr>
+                <td>Ga-68</td>
+                <td>Cs-137</td>
+                <td>Pb-212</td>
+            </tr>
+            <tr>
+                <td>Cu-64</td>
+                <td>I-123</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>C-11</td>
+                <td>Zr-89</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>In-111</td>
+                <td></td>
+            </tr>
+        </tbody>
     </table>
 
     <table class="table caption-top table-bordered mb-3">
@@ -167,18 +206,20 @@
             <th>Type</th>
             <th>Limit</th>
         </thead>
-        <tr>
-            <td>Diagnostic Agents</td>
-            <td>650,000</td>
-        </tr>
-        <tr>
-            <td>Therapeutic Agents excluding Ra-223 & Ac-225</td>
-            <td>6,500</td>
-        </tr>
-        <tr>
-            <td>Pb-212, Ra-223, & Ac-225</td>
-            <td>66</td>
-        </tr>
+        <tbody>
+            <tr>
+                <td>Diagnostic Agents</td>
+                <td>650,000</td>
+            </tr>
+            <tr>
+                <td>Therapeutic Agents excluding Ra-223 & Ac-225</td>
+                <td>6,500</td>
+            </tr>
+            <tr>
+                <td>Pb-212, Ra-223, & Ac-225</td>
+                <td>66</td>
+            </tr>
+        </tbody>
     </table>
 
     <table class="table caption-top table-bordered mb-3">
@@ -188,26 +229,48 @@
             <th>Instrument</th>
             <th>Efficiency</th>
         </thead>
-        <tr>
-            <td>I-131</td>
-            <td>NaI scalar</td>
-            <td>Ba-133</td>
-        </tr>
-        <tr>
-            <td>Tc-99m, F-18, etc.</td>
-            <td>NaI scalar</td>
-            <td>Cs-137</td>
-        </tr>
-        <tr>
-            <td>Lu-177</td>
-            <td>Geiger counter</td>
-            <td>Lu-177</td>
-        </tr>
+        <tbody>
+            <tr>
+                <td>I-131</td>
+                <td>NaI scalar</td>
+                <td>Ba-133</td>
+            </tr>
+            <tr>
+                <td>Tc-99m, F-18, etc.</td>
+                <td>NaI scalar</td>
+                <td>Cs-137</td>
+            </tr>
+            <tr>
+                <td>Lu-177</td>
+                <td>Geiger counter</td>
+                <td>Lu-177</td>
+            </tr>
+        </tbody>
     </table>
+
+    <div class="table-responsive">
+        <table class="table caption-top table-bordered mb-3">
+            <caption>History</caption>
+            <thead class="table-light">
+                <th>Date</th>
+                <th>Eff</th>
+                <th>Time</th>
+                <th>BKG time</th>
+                <th>BKG (cts)</th>
+                <th>Limit</th>
+                <th>MDA</th>
+                <th>Trigger</th>
+                <th></th>
+            </thead>
+            <tbody id="saved-history"></tbody>
+        </table>
+    </div>
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
     <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
