@@ -103,7 +103,12 @@ function displayText(mda, trigger) {
 }
 
 function getHistory() {
-    return JSON.parse(localStorage.getItem('history'));
+    let history = JSON.parse(localStorage.getItem('history'));
+    if (history===null) {
+        return [];
+    } else {
+        return history;
+    }
 }
 
 function displayHistory() {
@@ -145,7 +150,7 @@ function deleteEntry(row) {
 }
 
 function deleteHistory() {
-    setHistory();
+    setHistory([]);
 }
 
 // listener for save button
