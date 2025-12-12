@@ -26,6 +26,7 @@ const eMdaSameEqn = document.getElementById('mda-same-equation');
 const eMdaDifferentEqn = document.getElementById('mda-different-equation');
 const eSaved = document.getElementById('saved-history');
 const eSaveButton = document.getElementById('save-btn');
+const eResetButton = document.getElementById('reset-btn');
 
 // update callibration info
 for (efficiency of efficiencies) {
@@ -43,12 +44,28 @@ eLimitSelector.addEventListener('change', (e) => {
     eLimit.value = eLimitSelector.value;
 });
 
+// clear form
+eResetButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    clear();
+});
+
 // recalculate when something is changed
 for (const x of form.elements) {
     x.addEventListener('change', (e) => {
         e.preventDefault();
         calculate();
     });
+}
+
+function clear() {
+    eEff.value = "";
+    eEffSelector.value = 0;
+    eTime.value = "";
+    eTimeBkg.value = "";
+    eBkg.value = "";
+    eLimit.value = "";
+    eLimitSelector.value = 0;
 }
 
 function calculate() {
@@ -166,6 +183,5 @@ eSaveButton.addEventListener('click', (e) => {
 });
 
 displayHistory();
-
 
 })();
