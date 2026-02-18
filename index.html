@@ -21,17 +21,17 @@
     <div class="container">
 
     <form id="form" class="mb-4">
-        <div class="form-label">Select MDA calculation option:</div>
-        <div class="col-sm" id="mda-select-radios">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="mda-select" value="same" id="mda-select-same" checked>
-                <label class="form-check-label" for="mda-select-same">Same BKG and Sample Count Time</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="mda-select" value="different" id="mda-select-different">
-                <label class="form-check-label" for="mda-select-different">Alternate BKG and Sample Count Time</label>
+        <div class="row">
+            <div class="col-sm">
+            <!-- <div class="form-label">Select MDA calculation option:</div> -->
+                <select class="form-select" id="mda-select">
+                    <option value="same" selected>Same BKG and Sample Count Time</option>
+                    <option value="different">Alternate BKG and Sample Count Time</option>
+                    <option value="mdcr">MDCR</option>
+                </select>
             </div>
         </div>
+
         <div class="row">
             <div class="col-sm">
                 <div class="form-floating">
@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm">
+            <div class="col-sm" style="display: block;" id="time-display"> 
                 <div class="form-floating">
                     <input type="number" class="form-control" step="1" min="0" id="time" name="time" placeholder="">
                     <label for="time">Sample count time (min)</label>
@@ -93,22 +93,40 @@
             </div>
         </div>
     </form>
-    <div class="row" style="text-align: center">
-        <math math xlmns="http://www.w3.org/1998/Math/MathML">
-            <h5 style = "display: block;" class="mb-3" id="mda-same-equation">
-                Same BKG and Sample Count Time $$MDA(dpm) = 2.71 + {4.66 \times \sqrt{Bkg} \over Eff \times Time}$$
-            </h5>
-            <h5 style="display: none;" class="mb-3" id="mda-different-equation">
-                Alternate BKG and Sample Count Time $$MDA(dpm) = 2.71 + {3.29 \times {\sqrt{{Bkg \over tb} \times ts \times (1 + {ts \over tb}}} )\over Eff \times ts}$$
-            </h5>
-            <h5 class="mb-3">
-                = <span id="mda">??</span>
-            </h5>
-            <h5 class="mb-3">
-                Trigger = [(L × Eff × t) + Bkg] = <span id="trigger-level">??</span>
-            </h5>
-        </math>
+    <div class="row text-center">
+        <div class="col-sm">
+            <math math xlmns="http://www.w3.org/1998/Math/MathML">
+                <h5 style = "display: block;" class="mb-3" id="mda-same-equation">
+                    Same BKG and Sample Count Time
+                    $$\mathrm{MDA(dpm)} = 2.71 + {4.66 \times \sqrt{\mathrm{Bkg}} \over \mathrm{Eff} \times \mathrm{Time}}$$
+                    $$\mathrm{Trigger} = (L \times \mathrm{Eff} \times t) + \mathrm{Bkg}$$
+                </h5>
+                <h5 style="display: none;" class="mb-3" id="mda-different-equation">
+                    Alternate BKG and Sample Count Time 
+                    $$\mathrm{MDA(dpm)} = 2.71 + {3.29 \times {\sqrt{{\mathrm{Bkg} \over t_b} \times t_s \times (1 + {t_s \over t_b}}} )\over \mathrm{Eff} \times t_s}$$
+                    $$\mathrm{Trigger} = (L \times \mathrm{Eff} \times t) + {\mathrm{Bkg} \over t_b} * t_s$$
+                </h5>
+                <h5 style = "display: none;" class="mb-3" id="mdcr-equation">
+                    Minimum Detectable Count Rate 
+                    $$\mathrm{MDA(dpm)} = {\mathrm{MDCR} \over \mathrm{Eff}} = {1.38 \times \sqrt{\mathrm{Bkg} \times 60} \over \mathrm{Eff}}$$
+                    $$\mathrm{Trigger} = (L \times \mathrm{Eff}) + \mathrm{Bkg}$$
+                </h5>
+            </math>
+        </div>
     </div>
+    <div class="row text-center">
+        <div class="col-sm">
+            <h5 class="mb-3">
+                MDA = <span id="mda">??</span>
+            </h5>
+        </div>
+        <div class="col-sm">
+            <h5 class="mb-3">
+                Trigger = <span id="trigger-level">??</span>
+            </h5>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col">
             <button type="button" class="btn btn-primary w-100" id="save-btn" disabled>Save</button>

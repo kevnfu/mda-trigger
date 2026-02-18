@@ -16,6 +16,7 @@ const eBkg = document.getElementById('bkg');
 const eLimit = document.getElementById('limit');
 const eTime = document.getElementById('time');
 const eTimeBkg = document.getElementById('bkg-time');
+const eTimeDisplay = document.getElementById('time-display');
 const eTimeBkgDisplay = document.getElementById('bkg-time-display');
 const eMda = document.getElementById('mda');
 const eTrigger = document.getElementById('trigger-level');
@@ -24,9 +25,12 @@ const eLimitSelector = document.getElementById('limit-select');
 const eMdaOptionSelector = form.elements["mda-select"];
 const eMdaSameEqn = document.getElementById('mda-same-equation');
 const eMdaDifferentEqn = document.getElementById('mda-different-equation');
+const eMdcrEqn = document.getElementById('mdcr-equation');
 const eSaved = document.getElementById('saved-history');
 const eSaveButton = document.getElementById('save-btn');
 const eResetButton = document.getElementById('reset-btn');
+
+const displayElements = [eMdaSameEqn, eMdaDifferentEqn, eMdcrEqn, eTimeDisplay, eTimeBkgDisplay];
 
 // update callibration info
 for (efficiency of efficiencies) {
@@ -54,7 +58,14 @@ eResetButton.addEventListener('click', (e) => {
 for (const x of form.elements) {
     x.addEventListener('change', (e) => {
         e.preventDefault();
-        calculate();
+        result = calculate();
+        if(Number.isNaN(result)) {
+            eSaveButton.disabled = true;
+            displayText("??", "??");
+        } else {
+            eSaveButton.disabled = false;
+            displayText(result[5], result[6]);
+        }
     });
 }
 
@@ -68,6 +79,7 @@ function clear() {
     eLimitSelector.value = 0;
 }
 
+// returns [eff * 100, time, bkg_time, bkg, limit, mda, trigger]
 function calculate() {
     const eff = parseFloat(eEff.value) / 100;
     const time = parseFloat(eTime.value);
@@ -77,37 +89,44 @@ function calculate() {
     let mda, trigger;
 
     // only calculate and activate save button when all are filled
-    if ([eff, bkg, time, limit].reduce((t, v) => {return t && !Number.isNaN(v)}, true)) {
-        // check  MDA calculation option
-        if(eMdaOptionSelector.value === "same") {
-            mda = Math.ceil((2.71 + 4.66 * Math.sqrt(bkg)) / (eff * time));
-            trigger = Math.floor(limit * eff * time + bkg);
-        } else if(eMdaOptionSelector.value === "different") {
-            mda = Math.ceil(((2.71 + 3.29 * Math.sqrt(bkg/bkg_time * time * (1 + time/bkg_time)))/ (eff * time)));
-            trigger = Math.floor(limit * time * eff + bkg/bkg_time*time);
-        }
-        eSaveButton.disabled = false;
-        displayText(mda, trigger);
-    } else {
-        eSaveButton.disabled = true;
-        displayText('??', '??');
+    // if these are NaN, no MDA can be calculated
+    if ([eff, bkg, limit].reduce((t, v) => {return t || Number.isNaN(v)}, false)) {
+        return NaN;
     }
 
-    return [eff * 100, time, bkg_time, bkg, limit, mda, trigger];
+    if(eMdaOptionSelector.value === "same") {
+        if(Number.isNaN(time)) return NaN;
+        mda = Math.ceil((2.71 + 4.66 * Math.sqrt(bkg)) / (eff * time));
+        trigger = Math.floor(limit * eff * time + bkg);
+        return [eff * 100, time, NaN, bkg, limit, mda, trigger];
+    } else if(eMdaOptionSelector.value === "different") {
+        if(Number.isNaN(time) || Number.isNaN(bkg_time)) return NaN;
+        mda = Math.ceil(((2.71 + 3.29 * Math.sqrt(bkg/bkg_time * time * (1 + time/bkg_time)))/ (eff * time)));
+        trigger = Math.floor(limit * time * eff + bkg/bkg_time*time);
+        return [eff * 100, time, bkg_time, bkg, limit, mda, trigger]
+    } else if(eMdaOptionSelector.value === "mdcr") {
+        mda = Math.ceil(1.38 * Math.sqrt(bkg * 60) / eff);
+        trigger = Math.floor(limit * eff + bkg);
+        return [eff * 100, NaN, NaN, bkg, limit, mda, trigger]
+    }
 }
 
 function displayText(mda, trigger) {
     // update MDA equation to match selected option
     // display or hide bkg count input
+    // displayElements = [eMdaSameEqn, eMdaDifferentEqn, eMdcrEqn, eTimeDisplay, eTimeBkgDisplay]
+    let settings = [];
     if(eMdaOptionSelector.value === "same") {
-        eMdaSameEqn.style.display = "block";
-        eMdaDifferentEqn.style.display = "none";
-        eTimeBkgDisplay.style.display = "none";
+        settings = ["block", "none", "none", "block", "none"];
     } else if(eMdaOptionSelector.value === "different") {
-        eMdaDifferentEqn.style.display = "block";
-        eMdaSameEqn.style.display = "none";
-        eTimeBkgDisplay.style.display = "block";
+        settings = ["none", "block", "none", "block", "block"];
+    } else if (eMdaOptionSelector.value === "mdcr") {
+        settings = ["none", "none", "block", "none", "none"];
     }
+    displayElements.forEach((e, i) => {
+        e.style.display = settings[i];
+    });
+
     eMda.innerText = mda;
     eTrigger.innerText = trigger;
     
@@ -143,8 +162,6 @@ function displayHistory() {
         // create delete button
         const deleteRowButton = document.createElement('button');
         deleteRowButton.className = 'btn btn-danger';
-        // deleteRowButton.setAttribute('data-bs-toggle', 'button');
-        // deleteRowButton.style = 'margin: .1rem';
         deleteRowButton.innerText = 'x';
         deleteRowButton.addEventListener('click', (e) => {
             e.preventDefault();
