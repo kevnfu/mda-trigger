@@ -18,7 +18,7 @@
     </script>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
 
     <form id="form" class="mb-4">
         <div class="row">
@@ -33,13 +33,13 @@
         </div>
 
         <div class="row">
-            <div class="col-sm">
+            <div class="col">
                 <div class="form-floating">
                     <input type="number" class="form-control" step="1" min="0" id="eff" name="eff" placeholder="Efficiency (%)">
                     <label for="eff">Efficency (%)</label>
                 </div>
             </div>
-            <div class="col-sm">
+            <div class="col">
                 <div class="form-floating">
                     <select id="eff-select" class="form-select">
                         <option selected value="0"></option>
@@ -49,13 +49,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm" style="display: block;" id="time-display"> 
+            <div class="col" style="display: block;" id="time-display"> 
                 <div class="form-floating">
                     <input type="number" class="form-control" step="1" min="0" id="time" name="time" placeholder="">
                     <label for="time">Sample count time (min)</label>
                 </div>
             </div>
-            <div class="col-sm" style="display: none;" id="bkg-time-display">
+            <div class="col" style="display: none;" id="bkg-time-display">
                 <div class="form-floating">
                     <input type="number" class="form-control" step="0.1" min="0" id="bkg-time" name="bkg-time" placeholder="">
                     <label for="bkg-time">BKG count time (min)</label>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm">
+            <div class="col">
                 <div class="form-floating">
                     <input type="number" class="form-control" min="0" id="bkg" name="bkg" placeholder="">
                     <label for="bkg" class="form-label">BKG (counts)</label>
@@ -71,13 +71,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm">
+            <div class="col">
                 <div class="form-floating">
                     <input type="number" class="form-control" min="0" id="limit" name="limit" placeholder="">
                     <label for="limit">Limit (dpm)</label>
                 </div>
             </div>
-            <div class="col-sm">
+            <div class="col">
                 <div class="form-floating">
                     <select id="limit-select" class="form-select">
                         <option value="0"></option>
@@ -94,7 +94,7 @@
         </div>
     </form>
     <div class="row text-center">
-        <div class="col-sm">
+        <div class="col">
             <math math xlmns="http://www.w3.org/1998/Math/MathML">
                 <h5 style = "display: block;" class="mb-3" id="mda-same-equation">
                     Same BKG and Sample Count Time
@@ -108,19 +108,19 @@
                 </h5>
                 <h5 style = "display: none;" class="mb-3" id="mdcr-equation">
                     Minimum Detectable Count Rate 
-                    $$\mathrm{MDA(dpm)} = {\mathrm{MDCR} \over \mathrm{Eff}} = {1.38 \times \sqrt{\mathrm{Bkg} \times 60} \over \mathrm{Eff}}$$
+                    $$\mathrm{MDA(dpm)} = {1.38 \times \sqrt{\mathrm{Bkg} \times 60} \over \mathrm{Eff}}$$
                     $$\mathrm{Trigger} = (L \times \mathrm{Eff}) + \mathrm{Bkg}$$
                 </h5>
             </math>
         </div>
     </div>
     <div class="row text-center">
-        <div class="col-sm">
+        <div class="col">
             <h5 class="mb-3">
                 MDA = <span id="mda">??</span>
             </h5>
         </div>
-        <div class="col-sm">
+        <div class="col">
             <h5 class="mb-3">
                 Trigger = <span id="trigger-level">??</span>
             </h5>
