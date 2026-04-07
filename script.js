@@ -79,7 +79,8 @@ function clear() {
     eLimitSelector.value = 0;
 }
 
-// returns [eff * 100, time, bkg_time, bkg, limit, mda, trigger]
+// returns [eff * 100, time, bkg_time, bkg, limit, mda, trigger], 
+// or NaN if missing input
 function calculate() {
     const eff = parseFloat(eEff.value) / 100;
     const time = parseFloat(eTime.value);
@@ -88,7 +89,7 @@ function calculate() {
     const limit = parseInt(eLimit.value);
     let mda, trigger;
 
-    // only calculate and activate save button when all are filled
+    // only calculate and activate save button when all inputs are filled
     // if these are NaN, no MDA can be calculated
     if ([eff, bkg, limit].reduce((t, v) => {return t || Number.isNaN(v)}, false)) {
         return NaN;
@@ -101,7 +102,7 @@ function calculate() {
         return [eff * 100, time, NaN, bkg, limit, mda, trigger];
     } else if(eMdaOptionSelector.value === "different") {
         if(Number.isNaN(time) || Number.isNaN(bkg_time)) return NaN;
-        mda = Math.ceil(((2.71 + 3.29 * Math.sqrt(bkg/bkg_time * time * (1 + time/bkg_time)))/ (eff * time)));
+        mda = Math.ceil(((2.71 + 3.29 * Math.sqrt(bkg/bkg_time * time * (1 + time/bkg_time))) / (eff * time)));
         trigger = Math.floor(limit * time * eff + bkg/bkg_time*time);
         return [eff * 100, time, bkg_time, bkg, limit, mda, trigger]
     } else if(eMdaOptionSelector.value === "mdcr") {

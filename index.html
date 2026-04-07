@@ -51,7 +51,7 @@
         <div class="row">
             <div class="col" style="display: block;" id="time-display"> 
                 <div class="form-floating">
-                    <input type="number" class="form-control" step="1" min="0" id="time" name="time" placeholder="">
+                    <input type="number" class="form-control" step="1" min="0" id="time" name="time" value="1" placeholder="">
                     <label for="time">Sample count time (min)</label>
                 </div>
             </div>
@@ -98,7 +98,7 @@
             <math math xlmns="http://www.w3.org/1998/Math/MathML">
                 <h5 style = "display: block;" class="mb-3" id="mda-same-equation">
                     Same BKG and Sample Count Time
-                    $$\mathrm{MDA(dpm)} = 2.71 + {4.66 \times \sqrt{\mathrm{Bkg}} \over \mathrm{Eff} \times \mathrm{Time}}$$
+                    $$\mathrm{MDA(dpm)} = {2.71 + 4.66 \times \sqrt{\mathrm{Bkg}} \over \mathrm{Eff} \times \mathrm{Time}}$$
                     $$\mathrm{Trigger} = (L \times \mathrm{Eff} \times t) + \mathrm{Bkg}$$
                 </h5>
                 <h5 style="display: none;" class="mb-3" id="mda-different-equation">
